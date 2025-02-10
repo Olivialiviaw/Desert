@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Desert Interaction with Particles</title>
+    <link href="https://fonts.googleapis.com/css2?family=IM+Fell+English&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/p2.css">
+</head>
+<body>
+    <video autoplay loop muted playsinline class="background-video">
+        <source src="assets/bg.mp4" type="video/mp4">
+    </video>
+    <div class="background">
+        <div class="content">
+            <div class="top-text fade-in" style="animation-delay: 0.5s;">
+                A dry and scorching desert,<br>
+                filled with swirling <span id="sandstorms" class="hover-effect">sandstorms</span>.
+            </div>
+            <div class="bottom-text fade-in" style="animation-delay: 1.5s;">
+                No <span id="water" class="hover-effect">water</span> to drink,<br>
+                no life to be found.<br>
+                <span>This was the desert of my true self.</span>
+            </div>
+        </div>
+    </div>
+    <script>
+        const sandstorms = document.getElementById('sandstorms');
+        const water = document.getElementById('water');
+        const background = document.querySelector('.background');
+
+        function createOverlay(text, color) {
+            const overlay = document.createElement('div');
+            overlay.classList.add('overlay');
+            overlay.textContent = text;
+            overlay.style.color = color;
+            document.body.appendChild(overlay);
+            return overlay;
+        }
+
+        function removeOverlay() {
+            const overlay = document.querySelector('.overlay');
+            if (overlay) overlay.remove();
+        }
+
+        sandstorms.addEventListener('mouseenter', () => {
+            background.style.background = 'linear-gradient(45deg, #e9c46a, #f4a261)';
+            const overlay = createOverlay('SANDSTORMS', '#B09658');
+            overlay.classList.add('breathing');
+        });
+
+        sandstorms.addEventListener('mouseleave', () => {
+            background.style.background = 'transparent';
+            removeOverlay();
+        });
+
+        water.addEventListener('mouseenter', () => {
+            background.style.background = 'linear-gradient(45deg, #4682b4, #87ceeb)';
+            const overlay = createOverlay('WATER', '#4682b4');
+            overlay.classList.add('breathing');
+        });
+
+        water.addEventListener('mouseleave', () => {
+            background.style.background = 'transparent';
+            removeOverlay();
+        });
+
+        document.addEventListener('mousemove', (e) => {
+            const particle = document.createElement('div');
+            particle.classList.add('particle');
+            particle.style.left = `${e.pageX}px`;
+            particle.style.top = `${e.pageY}px`;
+
+            const size = Math.random() * 10 + 5;
+            particle.style.width = `${size}px`;
+            particle.style.height = `${size}px`;
+
+            const colors = ["#e9c46a", "#f4a261", "#4682b4", "#87ceeb"];
+            particle.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+
+            document.body.appendChild(particle);
+
+            setTimeout(() => {
+                particle.remove();
+            }, 1000);
+        });
+    </script>
+</body>
+</html>
